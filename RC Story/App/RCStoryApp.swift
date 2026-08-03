@@ -4,11 +4,12 @@ import Playgrounds
 @main struct RCStoryApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            IntroductionView()
+                .accentColor(Colors.accent)
         }
     }
 }
 
 #Preview {
-    ContentView()
+    IntroductionView()
 }
