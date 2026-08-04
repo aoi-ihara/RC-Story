@@ -24,7 +24,3 @@ struct BottomButton: View {
         .padding(.horizontal, 32)
     }
 }
-
-#Preview {
-    IntroductionView()
-}

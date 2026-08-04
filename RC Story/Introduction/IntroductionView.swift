@@ -8,6 +8,8 @@ struct IntroductionPage {
 struct IntroductionView: View {
     @State private var pageIndex = 0
     
+    @Binding var showIntroductionView: Bool
+    
     private let contents = [
         IntroductionPage(
             heading: "ゲームを楽しむことが第一です",
@@ -43,7 +45,7 @@ struct IntroductionView: View {
                                 .foregroundStyle(Colors.textSecondary)
                                 .tag(index)
                         }
-                        .frame(width: 384)
+                        .padding(.horizontal, 32)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -51,11 +53,13 @@ struct IntroductionView: View {
                 
                 Spacer()
                 
-                BottomButton("Continue") {
+                BottomButton(pageIndex == 2 ? "Done" : "Continue") {
                     if (pageIndex < 2) {
                         withAnimation {
                             pageIndex += 1
                         }
+                    } else {
+                        showIntroductionView = false
                     }
                 }
             }
@@ -64,5 +68,5 @@ struct IntroductionView: View {
 }
 
 #Preview {
-    IntroductionView()
+    ContentView()
 }
