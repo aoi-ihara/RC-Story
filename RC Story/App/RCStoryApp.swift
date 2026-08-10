@@ -1,18 +1,12 @@
 import SwiftUI
 import Playgrounds
 
-@main struct MyApp: App {
+@main struct RCStoryApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .accentColor(Colors.accent)
         }
-    }
-}
-
-struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
     }
 }
 
