@@ -193,13 +193,13 @@ struct GameView: View {
                     BackButton(action: {
                         navigation.viewState = .home
                     })
-                    
+
                     Spacer()
                 }
-                .padding(16)
-                
+                .padding(32)
+
                 Spacer()
-                
+
                 HStack {
                     Text("Find")
                         .font(Fonts.heading)
@@ -260,14 +260,14 @@ struct GameView: View {
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(.horizontal, 16)
-                
+
                 Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .padding(.vertical, 16)
         }
     }
-    
+
     // MARK: - UI Helpers
 
     private func backgroundColor(for position: Position) -> Color {
