@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // MARK: - Models
 
@@ -26,15 +27,30 @@ enum GameState {
 class GameEngine {
     var grid: [[CellData]] = []
     var targetWord: String = "CAT"
-    var currentSelection: [Position] = []
+    var currentSelection: [Position] = [] {
+        didSet {
+            if currentSelection != oldValue {
+                playSelectionFeedback()
+            }
+        }
+    }
     var confirmedSelection: [Position] = []
     var state: GameState = .playing
 
     // サンプルの単語リスト
     private let wordPool = ["CAT", "SWIFT", "APPLE", "CODE", "MAC", "XCODE", "IOS"]
+    
+    // ハプティックジェネレーター
+    private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     init() {
         generateGame()
+        feedbackGenerator.prepare()
+    }
+
+    private func playSelectionFeedback() {
+        feedbackGenerator.selectionChanged()
+        feedbackGenerator.prepare()
     }
 
     func generateGame() {
@@ -217,6 +233,7 @@ struct GameView: View {
                                 ForEach(0..<8, id: \.self) { col in
                                     let pos = Position(row: row, col: col)
                                     let cell = engine.grid[row][col]
+                                    let isSelected = engine.currentSelection.contains(pos)
 
                                     ZStack {
                                         // Highlight Background
@@ -232,9 +249,10 @@ struct GameView: View {
                                                     design: .rounded)
                                             )
                                             .foregroundStyle(textColor(for: pos))
-                                            .scaleEffect(x: cell.scaleX, y: 1)
                                             .rotationEffect(.degrees(cell.rotation))
                                     }
+                                    .scaleEffect(x: cell.scaleX * (isSelected ? 1.2 : 1.0), y: isSelected ? 1.2 : 1.0)
+                                    .animation(.easeOut(duration: 0.05), value: isSelected)
                                     .frame(width: cellSize, height: cellSize)
                                 }
                             }
