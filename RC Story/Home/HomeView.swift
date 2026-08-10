@@ -2,23 +2,31 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var showSettingsView: Bool = false
-
+    @Environment(NavigationState.self) private var navigationState
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 32) {
                 Text("RC Story")
                     .font(Fonts.hero)
-
-                Button(
-                    action: {},
-                    label: {
-                        Label("Start Game", systemImage: "gamecontroller")
-                    }
-                )
+                
+                Button(action: {
+                    navigationState.viewState = .game
+                }, label: {
+                    Label("Start Game", systemImage: "gamecontroller")
+                })
                 .buttonStyle(PrimaryButtonStyle(fullWidth: true))
-
+                
                 Button(
                     action: { showSettingsView.toggle() },
+                    label: {
+                        Label("Settings", systemImage: "gearshape.fill")
+                    }
+                )
+                .buttonStyle(TextButtonStyle())
+                
+                Button(
+                    action: {},
                     label: {
                         Label("Settings", systemImage: "gearshape.fill")
                     }
