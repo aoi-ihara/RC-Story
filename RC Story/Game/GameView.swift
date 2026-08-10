@@ -190,11 +190,15 @@ struct GameView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 HStack {
-                    Button {} label: {
-                        Image(systemName: "chevron.backward")
-                    }
-                    .buttonStyle(PrimaryButtonStyle())
+                    BackButton(action: {
+                        navigation.viewState = .home
+                    })
+                    
+                    Spacer()
                 }
+                .padding(32)
+                
+                Spacer()
                 
                 HStack {
                     Text("Find")
@@ -256,6 +260,8 @@ struct GameView: View {
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(.horizontal, 16)
+                
+                Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
             .padding(.vertical, 16)

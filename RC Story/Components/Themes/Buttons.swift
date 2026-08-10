@@ -17,7 +17,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .offset(y: configuration.isPressed ? 0 : -4)
             .shadow(color: Colors.shadow, radius: 0, y: configuration.isPressed ? 0 : 4)
             .transaction { transaction in
-                transaction.animation = .easeOut(duration: 0.04)
+                transaction.animation = nil
             }
             .font(Fonts.button)
             .sensoryFeedback(trigger: configuration.isPressed) { _, newValue in
