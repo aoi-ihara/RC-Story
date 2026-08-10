@@ -196,7 +196,7 @@ struct GameView: View {
 
                     Spacer()
                 }
-                .padding(32)
+                .padding(.horizontal, 32)
 
                 Spacer()
 
@@ -259,7 +259,7 @@ struct GameView: View {
                     )
                 }
                 .aspectRatio(1, contentMode: .fit)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 32)
 
                 Spacer()
             }
