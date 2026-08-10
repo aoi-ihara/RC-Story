@@ -8,7 +8,7 @@ struct IntroductionPage {
 struct IntroductionView: View {
     @State private var pageIndex = 0
     @Binding var showIntroductionView: Bool
-    
+
     private let contents = [
         IntroductionPage(
             heading: "ゲームを楽しむことが第一です",
@@ -21,18 +21,18 @@ struct IntroductionView: View {
         IntroductionPage(
             heading: "強みも大切にします",
             body: "結果では苦手なことだけでなく、得意なことや力を発揮しやすい方法もお伝えします。一人ひとりに合った学び方を、一緒に見つけていきましょう。"
-        )
+        ),
     ]
-    
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 32) {
                 Spacer()
-                
+
                 Text("Welcome to ****")
                     .font(Fonts.hero)
                     .foregroundStyle(Colors.accent)
-                
+
                 TabView(selection: $pageIndex) {
                     ForEach(contents.indices, id: \.self) { index in
                         VStack(alignment: .leading, spacing: 32) {
@@ -49,11 +49,11 @@ struct IntroductionView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 256)
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                
+
                 Spacer()
-                
+
                 BottomButton(pageIndex == 2 ? "Done" : "Continue") {
-                    if (pageIndex < 2) {
+                    if pageIndex < 2 {
                         withAnimation {
                             pageIndex += 1
                         }

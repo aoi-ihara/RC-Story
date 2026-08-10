@@ -5,9 +5,11 @@ struct ContentView: View {
 
     var body: some View {
         HomeView()
-        .sheet(isPresented: $showIntroductionView, content: {
-            IntroductionView(showIntroductionView: $showIntroductionView)
-        })
+            .sheet(
+                isPresented: $showIntroductionView,
+                content: {
+                    IntroductionView(showIntroductionView: $showIntroductionView)
+                })
     }
 }
 
