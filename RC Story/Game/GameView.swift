@@ -196,7 +196,7 @@ struct GameView: View {
                     
                     Spacer()
                 }
-                .padding(32)
+                .padding(16)
                 
                 Spacer()
                 
