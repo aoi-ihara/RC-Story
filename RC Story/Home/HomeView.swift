@@ -5,7 +5,7 @@ struct HomeView: View {
     @Environment(NavigationState.self) private var navigationState
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 32) {
                 Text("RC Story")
                     .font(Fonts.hero)

@@ -40,7 +40,6 @@ class GameEngine {
     func generateGame() {
         targetWord = wordPool.randomElement() ?? "CAT"
 
-        // 空の8x8グリッドを初期化
         grid = Array(
             repeating: Array(repeating: CellData(character: " ", rotation: 0, scaleX: 1), count: 8),
             count: 8)
@@ -49,14 +48,14 @@ class GameEngine {
         var placed = false
 
         let directions = [
-            (1, 0),  // 東
-            (1, 1),  // 南東
-            (0, 1),  // 南
-            (-1, 1),  // 南西
-            (-1, 0),  // 西
-            (-1, -1),  // 北西
-            (0, -1),  // 北
-            (1, -1),  // 北東
+            (1, 0),
+            (1, 1),
+            (0, 1),
+            (-1, 1),
+            (-1, 0),
+            (-1, -1),
+            (0, -1),
+            (1, -1),
         ]
 
         // ターゲット単語が収まるまでランダム配置を試行
@@ -98,7 +97,6 @@ class GameEngine {
 
         let cellSize = gridSize / 8
 
-        // 座標をグリッド内の有効なインデックスにクランプ
         let startCol = Int(max(0, min(gridSize - 0.1, startLoc.x)) / cellSize)
         let startRow = Int(max(0, min(gridSize - 0.1, startLoc.y)) / cellSize)
         let currentCol = Int(max(0, min(gridSize - 0.1, currentLoc.x)) / cellSize)
@@ -190,23 +188,21 @@ struct GameView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 32) {
-                // Header
-                VStack(spacing: 8) {
-                    Text("Find")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
-
-                    Text(engine.targetWord)
-                        .font(.system(size: 44, weight: .black, design: .rounded))
-                        .tracking(2)
+            VStack(spacing: 16) {
+                HStack {
+                    Button {} label: {
+                        Image(systemName: "chevron.backward")
+                    }
+                    .buttonStyle(PrimaryButtonStyle())
                 }
-                .padding(.top, 40)
+                
+                HStack {
+                    Text("Find")
+                        .font(Fonts.heading)
+                    Text(engine.targetWord)
+                        .font(Fonts.hero)
+                }
 
-                Spacer()
-
-                // Grid Area
                 GeometryReader { geo in
                     let gridSize = geo.size.width
                     let cellSize = gridSize / 8
@@ -223,9 +219,8 @@ struct GameView: View {
                                         Rectangle()
                                             .fill(backgroundColor(for: pos))
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                                            .padding(2)  // セル間のわずかな隙間
+                                            .padding(2)
 
-                                        // Letter
                                         Text(String(cell.character))
                                             .font(
                                                 .system(
@@ -233,7 +228,6 @@ struct GameView: View {
                                                     design: .rounded)
                                             )
                                             .foregroundStyle(textColor(for: pos))
-                                            // 視覚的変形の適用
                                             .scaleEffect(x: cell.scaleX, y: 1)
                                             .rotationEffect(.degrees(cell.rotation))
                                     }
@@ -248,7 +242,6 @@ struct GameView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color(uiColor: .tertiarySystemFill))
                     )
-                    // グリッド全体に対するドラッグジェスチャー
                     .gesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged { value in
@@ -263,13 +256,12 @@ struct GameView: View {
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(.horizontal, 16)
-
-                Spacer()
             }
             .navigationBarTitleDisplayMode(.inline)
+            .padding(.vertical, 16)
         }
     }
-
+    
     // MARK: - UI Helpers
 
     private func backgroundColor(for position: Position) -> Color {

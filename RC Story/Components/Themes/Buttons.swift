@@ -17,12 +17,12 @@ struct PrimaryButtonStyle: ButtonStyle {
             .offset(y: configuration.isPressed ? 0 : -4)
             .shadow(color: Colors.shadow, radius: 0, y: configuration.isPressed ? 0 : 4)
             .transaction { transaction in
-                transaction.animation = nil
+                transaction.animation = .easeOut(duration: 0.04)
             }
             .font(Fonts.button)
             .sensoryFeedback(trigger: configuration.isPressed) { _, newValue in
                 if newValue {
-                    return .impact
+                    return .selection
                 } else {
                     return nil
                 }
@@ -46,6 +46,25 @@ struct TextButtonStyle: ButtonStyle {
             .transaction { transaction in
                 transaction.animation = nil
             }
+    }
+}
+
+struct BackButton: View {
+    let action: () -> Void
+
+    init(action: @escaping () -> Void) {
+        self.action = action
+    }
+
+    var body: some View {
+        Button(
+            action: action,
+            label: {
+                Image(systemName: "chevron.left")
+                    .frame(width: 24, height: 24)
+            }
+        )
+        .buttonStyle(PrimaryButtonStyle())
     }
 }
 
@@ -81,6 +100,10 @@ struct BottomButton: View {
     Spacer()
     Button("Title") { print("HELLO") }
         .buttonStyle(PrimaryButtonStyle(fullWidth: true))
+    Spacer()
+
+    BackButton(action: {})
+
     Spacer()
 
     BottomButton("タイトル", action: {})
