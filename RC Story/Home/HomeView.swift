@@ -7,7 +7,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 32) {
-                Text("RC Story")
+                Text("Hello World!!")
                     .font(Fonts.hero)
 
                 Button(
@@ -36,7 +36,7 @@ struct HomeView: View {
                 )
                 .buttonStyle(TextButtonStyle())
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: 256)
             .padding(.horizontal, 32)
             .sheet(isPresented: $showSettingsView) {
                 SettingsView(showSettingsView: $showSettingsView)

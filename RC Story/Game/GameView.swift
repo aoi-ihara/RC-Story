@@ -37,10 +37,8 @@ class GameEngine {
     var confirmedSelection: [Position] = []
     var state: GameState = .playing
 
-    // サンプルの単語リスト
-    private let wordPool = ["CAT", "SWIFT", "APPLE", "CODE", "MAC", "XCODE", "IOS"]
-    
-    // ハプティックジェネレーター
+    private let wordPool = Words.defaultSet
+
     private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     init() {
@@ -93,7 +91,6 @@ class GameEngine {
             }
         }
 
-        // 残りのマスをランダムなアルファベットで埋め、変形をランダム適用
         let alphabets = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         let rotations: [Double] = [0, 90, 180, 270]
 
@@ -231,16 +228,17 @@ struct GameView: View {
                         ForEach(0..<8, id: \.self) { row in
                             HStack(spacing: 0) {
                                 ForEach(0..<8, id: \.self) { col in
-                                    let pos = Position(row: row, col: col)
+                                    let position = Position(row: row, col: col)
                                     let cell = engine.grid[row][col]
-                                    let isSelected = engine.currentSelection.contains(pos)
+                                    let isCellSelected = engine.currentSelection.contains(position)
+                                    let cellScale: CGFloat = isCellSelected ? 1.1 : 1.0
 
                                     ZStack {
                                         // Highlight Background
                                         Rectangle()
-                                            .fill(backgroundColor(for: pos))
+                                            .fill(backgroundColor(for: position))
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                                            .padding(2)
+                                            .padding(4)
 
                                         Text(String(cell.character))
                                             .font(
@@ -248,20 +246,21 @@ struct GameView: View {
                                                     size: cellSize * 0.45, weight: .bold,
                                                     design: .rounded)
                                             )
-                                            .foregroundStyle(textColor(for: pos))
+                                            .foregroundStyle(textColor(for: position))
                                             .rotationEffect(.degrees(cell.rotation))
                                     }
-                                    .scaleEffect(x: cell.scaleX * (isSelected ? 1.2 : 1.0), y: isSelected ? 1.2 : 1.0)
-                                    .animation(.easeOut(duration: 0.05), value: isSelected)
+                                    .shadow(radius: isCellSelected ? 4 : 0)
+                                    .scaleEffect(cellScale)
+                                    .animation(.easeOut(duration: 0.1), value: isCellSelected)
                                     .frame(width: cellSize, height: cellSize)
                                 }
                             }
                         }
                     }
                     .frame(width: gridSize, height: gridSize)
-                    .padding(2)
+                    .padding(4)
                     .background(
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: 16)
                             .fill(Color(uiColor: .tertiarySystemFill))
                     )
                     .gesture(
@@ -290,10 +289,8 @@ struct GameView: View {
 
     private func backgroundColor(for position: Position) -> Color {
         if engine.currentSelection.contains(position) {
-            // 仮選択状態
-            return Color.accentColor.opacity(0.3)
+            return Color.accentColor
         } else if engine.confirmedSelection.contains(position) {
-            // 確定状態
             if engine.state == .correct {
                 return Color.green
             } else if engine.state == .incorrect {
@@ -304,9 +301,7 @@ struct GameView: View {
     }
 
     private func textColor(for position: Position) -> Color {
-        if engine.confirmedSelection.contains(position)
-            && (engine.state == .correct || engine.state == .incorrect)
-        {
+        if engine.currentSelection.contains(position) || engine.confirmedSelection.contains(position)  {
             return .white
         }
         return .primary
