@@ -196,6 +196,7 @@ class GameEngine {
 // MARK: - Game View
 
 struct GameView: View {
+    @State private var gameStage = 0
     @Environment(NavigationState.self) private var navigation
     @State private var engine = GameEngine()
 
@@ -212,12 +213,25 @@ struct GameView: View {
                 .padding(.horizontal, 32)
 
                 Spacer()
-
-                HStack {
-                    Text("Find")
-                        .font(Fonts.heading)
-                    Text(engine.targetWord)
-                        .font(Fonts.hero)
+                
+                VStack(spacing: 16) {
+                    HStack(alignment: .bottom) {
+                        Text(String(gameStage + 1))
+                            .font(Fonts.hero)
+                        Text("/")
+                            .opacity(0.5)
+                            .font(Fonts.heading)
+                        Text("10")
+                            .opacity(0.5)
+                            .font(Fonts.heading)
+                    }
+                    
+                    HStack(alignment: .bottom) {
+                        Text("Find")
+                            .font(Fonts.heading)
+                        Text(engine.targetWord)
+                            .font(Fonts.hero)
+                    }
                 }
 
                 GeometryReader { geo in
