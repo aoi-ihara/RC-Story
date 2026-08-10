@@ -1,20 +1,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("show_introduction_view") private var showIntroductionView: Bool = true
-    
+    @AppStorage("showIntroductionView") private var showIntroductionView: Bool = false
+
     var body: some View {
-        NavigationStack {
-            Text("Hello Wolrd!!")
-                .foregroundStyle(Colors.textPrimary)
-                .font(Fonts.hero)
-            Button("Hide") {
-                showIntroductionView = false
-            }
-            Button("Shwo") {
-                showIntroductionView = true
-            }
-        }
+        HomeView()
         .sheet(isPresented: $showIntroductionView, content: {
             IntroductionView(showIntroductionView: $showIntroductionView)
         })

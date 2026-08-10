@@ -1,5 +1,37 @@
 import SwiftUI
 
+struct PrimaryButtonStyle: ButtonStyle {
+    let fullWidth: Bool
+
+    init(fullWidth: Bool = false) {
+        self.fullWidth = fullWidth
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(16)
+            .frame(maxWidth: fullWidth ? .infinity : nil)
+            .background(Colors.accent)
+            .clipShape(Capsule())
+            .foregroundStyle(Color.white)
+            .offset(y: configuration.isPressed ? 0 : -4)
+            .shadow(color: Colors.shadow, radius: 0, y: configuration.isPressed ? 0 : 4)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
+            .font(Fonts.button)
+            .sensoryFeedback(.impact, trigger: configuration.isPressed)
+    }
+}
+
+struct TextButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(Colors.accent)
+            .font(Fonts.button)
+    }
+}
+
 struct BottomButton: View {
     let title: String
     let action: () -> Void
@@ -13,14 +45,26 @@ struct BottomButton: View {
     }
 
     var body: some View {
-        Button(action: action, label: {
-            Text(title)
-                .font(Fonts.button)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-        })
-        .foregroundStyle(.white)
-        .buttonStyle(.glassProminent)
+        VStack {
+            Button(
+                action: action,
+                label: {
+                    Text(title)
+                        .font(Fonts.button)
+                        .foregroundStyle(Color.white)
+                }
+            )
+            .buttonStyle(PrimaryButtonStyle(fullWidth: true))
+        }
         .padding(.horizontal, 32)
     }
+}
+
+#Preview {
+    Spacer()
+    Button("Title") { print("HELLO") }
+        .buttonStyle(PrimaryButtonStyle(fullWidth: true))
+    Spacer()
+
+    BottomButton("タイトル", action: {})
 }

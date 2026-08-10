@@ -3,6 +3,7 @@ import SwiftUI
 enum Colors {
     static let accent = Color("Accent")
     static let secondary = Color("Secondary")
+    static let shadow = Color("Shadow")
 
     static let background = Color("Background")
     static let surface = Color("Surface")

@@ -7,7 +7,6 @@ struct IntroductionPage {
 
 struct IntroductionView: View {
     @State private var pageIndex = 0
-    
     @Binding var showIntroductionView: Bool
     
     private let contents = [
@@ -48,7 +47,7 @@ struct IntroductionView: View {
                         .padding(.horizontal, 32)
                     }
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 256)
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 
                 Spacer()
