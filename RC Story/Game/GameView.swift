@@ -1,11 +1,32 @@
 import SwiftUI
 
 struct GameView: View {
+    @Environment(NavigationState.self) private var navigation
+    
     var body: some View {
-        Text( /*@START_MENU_TOKEN@*/"Hello, World!" /*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                HStack {
+                    Text("Find")
+                        .font(Fonts.heading)
+                    Text("Cat")
+                        .font(Fonts.hero)
+                }
+                
+                Button("Hello") {}
+                    .buttonStyle(PrimaryButtonStyle())
+                Button("Return to Home") {
+                    navigation.viewState = .home
+                }
+                .buttonStyle(TextButtonStyle())
+                .onAppear {
+                    print("Hello World")
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    GameView()
+    ContentView()
 }

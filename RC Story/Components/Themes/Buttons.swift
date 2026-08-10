@@ -20,7 +20,13 @@ struct PrimaryButtonStyle: ButtonStyle {
                 transaction.animation = nil
             }
             .font(Fonts.button)
-            .sensoryFeedback(.impact, trigger: configuration.isPressed)
+            .sensoryFeedback(trigger: configuration.isPressed) { _, newValue in
+                if newValue {
+                    return .impact
+                } else {
+                    return nil
+                }
+            }
     }
 }
 
@@ -29,6 +35,17 @@ struct TextButtonStyle: ButtonStyle {
         configuration.label
             .foregroundColor(Colors.accent)
             .font(Fonts.button)
+            .sensoryFeedback(trigger: configuration.isPressed) { _, newValue in
+                if newValue {
+                    return .impact
+                } else {
+                    return nil
+                }
+            }
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
     }
 }
 
