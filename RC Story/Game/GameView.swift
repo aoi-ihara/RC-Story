@@ -162,7 +162,7 @@ class GameEngine {
 
             // 正解時は2秒後に次のゲームを生成
             Task {
-                try? await Task.sleep(for: .seconds(2))
+                try? await Task.sleep(for: .seconds(1))
                 await MainActor.run {
                     self.resetGame()
                 }
@@ -172,7 +172,6 @@ class GameEngine {
             confirmedSelection = currentSelection
             currentSelection = []
 
-            // 不正解時は1秒後に通常状態へ戻す
             Task {
                 try? await Task.sleep(for: .seconds(1))
                 await MainActor.run {

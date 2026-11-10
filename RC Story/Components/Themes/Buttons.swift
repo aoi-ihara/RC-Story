@@ -2,11 +2,11 @@ import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {
     let fullWidth: Bool
-
+    
     init(fullWidth: Bool = false) {
         self.fullWidth = fullWidth
     }
-
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(16)
@@ -49,13 +49,20 @@ struct TextButtonStyle: ButtonStyle {
     }
 }
 
-struct BackButton: View {
-    let action: () -> Void
+enum ButtonVariant {
+    case back
+    case close
+}
 
-    init(action: @escaping () -> Void) {
+struct BackButton: View {
+    let variant: ButtonVariant
+    let action: () -> Void
+    
+    init(variant: ButtonVariant, action: @escaping () -> Void) {
+        self.variant = variant
         self.action = action
     }
-
+    
     var body: some View {
         Button(
             action: action,
@@ -71,7 +78,7 @@ struct BackButton: View {
 struct BottomButton: View {
     let title: String
     let action: () -> Void
-
+    
     init(
         _ title: String,
         action: @escaping () -> Void
@@ -79,7 +86,7 @@ struct BottomButton: View {
         self.title = title
         self.action = action
     }
-
+    
     var body: some View {
         VStack {
             Button(
@@ -101,10 +108,10 @@ struct BottomButton: View {
     Button("Title") { print("HELLO") }
         .buttonStyle(PrimaryButtonStyle(fullWidth: true))
     Spacer()
-
+    
     BackButton(action: {})
-
+    
     Spacer()
-
+    
     BottomButton("タイトル", action: {})
 }
